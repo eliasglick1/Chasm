@@ -39,7 +39,12 @@
 #define LOAD_ERRNO serrno
 #define NO_ROWCOL_GIVEN 0, 0
 #define EMPTY_STR ""
-#define EXIT_MEMORY_ERROR 2
+#define COMPILED_SUCCESSFULLY 0
+#define EXIT_GENERAL_ERROR 1
+#define EXIT_NO_ERROR 3
+#define EXIT_COMPILER_ERROR 4
+#define EXIT_MEMORY_ERROR 5
+#define EXIT_OS_ERROR 6
 
 _Noreturn void handleExit(int errorNum, const char* file, size_t row, size_t col, int savedErrno, const char* extra);
 
