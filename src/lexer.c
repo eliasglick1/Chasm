@@ -219,7 +219,7 @@ static void validateCharLiteral(Token* t, const char* start) {
 }
 
 // Get and return the next token currently in the lexer's source
-// This function should be O(n) time per file due to consuming each character once
+// This function should be O(token length) time per file due to consuming each character once
 Token nextToken(Lexer* lexer) {
     const char* start;
     size_t col;
