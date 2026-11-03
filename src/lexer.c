@@ -80,7 +80,7 @@ Lexer createLexer(const char* src, const char* filename) {
 
 // Validator - Check the scanned number to verify its validity
 // This returns void, only directly editing the token given
-// This takes O(n) time because it takes n time per character in t->length
+// This takes O(number literal length) time because it takes n time per character in t->length
 static void validateNumberLiteral(Token* t, const char* start, short numberType) {
     size_t i = 0;
     const char* validatorPtr = start;
@@ -137,7 +137,7 @@ static void validateNumberLiteral(Token* t, const char* start, short numberType)
 }
 
 // Validator - Check the scanned character to verify its validity
-// Takes O(n) time because it works through t->length characters
+// Takes O(character literal length) time because it works through t->length characters
 static void validateCharLiteral(Token* t, const char* start) {
     /**
      * H = hex character
