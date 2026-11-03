@@ -9,6 +9,7 @@
 #include <string.h>
 
 // Handle any exit (successful or failure)
+// O(1) time
 _Noreturn void handleExit(int errorNum, const char* file, size_t row, size_t col, int savedErrno, const char* extra) {
     errno = savedErrno;
 
