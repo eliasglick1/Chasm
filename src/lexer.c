@@ -218,6 +218,64 @@ static void validateCharLiteral(Token* t, const char* start) {
     if (t->length != i) t->kind = INVALID;
 }
 
+static inline int getEscapeLength(const char* start);
+
+// Validator - Check the scanned string literal to verify its validity
+// Takes O(string length) time because it works through t->length characters
+static void validateStringLiteral(Token* t, const char* start) {
+    size_t i = 0;
+    const char* validatorPtr = start; // first "
+    t->kind = STR_LITERAL; // start as a string literal, set to invalid if malformed
+
+    // Enter the string literal (check likely won't fail, checked at call site)
+    if (validatorPtr[i] == '\"') i++;
+    else t->kind = INVALID;
+
+    while (validatorPtr[i] != '\"') {
+        if (validatorPtr[i] == '\\') {
+            int escLen = getEscapeLength(&validatorPtr[i]);
+            if (!escLen) { t->kind = INVALID; return; }
+            else { while (escLen > 0) { i++; escLen--; } }
+        }
+            
+        if ((unsigned char)validatorPtr[i] >= (unsigned char)0x80) { t->kind = INVALID; return; }
+
+        i++;
+    }
+}
+
+// Take an input pointer (on a \), and return the length of the escape or 0 if malformed
+// Goes up to \0 but does not return it included in the length
+// Takes O(escape length) time because it works through each character in the escape
+static inline int getEscapeLength(const char* start) {
+    if (*start != '\\') return 0;
+
+    // Start at 1 to skip the backslash
+    int i = 1;
+    
+    switch (start[i]) {
+        // Handle all 2 character escapes
+        case 'n' :
+        case 't' :
+        case 'r' :
+        case '0' :
+        case '\\':
+        case '\'':
+        case '"' :
+            return 2;
+        case 'x' :
+            i++;
+            if (HEX_VALID(start[i]) && HEX_VALID(start[i + 1])) return 4; else return 0;
+        case 'u' :
+            i++;
+            if (start[i] == '{') i++; else return 0;
+            if (HEX_VALID(start[i])) while (HEX_VALID(start[i])) i++; else return 0;
+            if (start[i] == '}') return i + 1; else return 0;
+        default:
+            return 0;
+    }
+}
+
 // Get and return the next token currently in the lexer's source
 // This function should be O(token length) time per file due to consuming each character once
 Token nextToken(Lexer* lexer) {
@@ -490,6 +548,31 @@ Token nextToken(Lexer* lexer) {
             break;
     }
 
+    // Check for a string literal
+    if (t.kind == INVALID && *(lexer->c) == '\"') {
+        advance(lexer);
+        
+        // Scanner - take in the string
+        while (*(lexer->c) != '\"') {
+            // Exit with Error.0016
+            if (*(lexer->c) == '\0') {
+                handleExit(UNTERMINATED_STRING_ERROR, lexer->file, row, col, 0, EMPTY_STR);
+            }
+            if (*(lexer->c) == '\\') {
+                advance(lexer);
+            }
+
+            advance(lexer);
+        }
+
+        // Consume the last "
+        if (*(lexer->c) == '\"') advance(lexer);
+
+        t.length = lexer->c - start;
+
+        validateStringLiteral(&t, start);
+    }
+
     // Check for a character literal
     if (t.kind == INVALID && *(lexer->c) == '\'') {
         // Scanner - take in the full literal
@@ -655,12 +738,23 @@ void printToken(Token* tok) {
         }
     }
 
-    if (tok->kind == KEYWORD)
+    if (tok->kind == KEYWORD) {
         printf("%s: %.*s (%s) - %zu:%zu (%zu)\n", *kindBuf, (int)tok->length, tok->text, findKeywordString(tok->typeValue.kw), tok->row, tok->col, tok->length);
-    else if (tok->kind == NEWLINE)
+    } else if (tok->kind == NEWLINE) {
         printf("%s: \\n - %zu:%zu (%zu)\n", *kindBuf, tok->row, tok->col, tok->length);
-    else
+    } else if (tok->kind == STR_LITERAL) {
+        printf("%s: ", *kindBuf);
+        size_t i = 0;
+        while (i < tok->length) {
+            if (tok->text[i] == '\r') printf("\\r");
+            else if (tok->text[i] == '\n') printf("\\n");
+            else printf("%c", tok->text[i]);
+            i++;
+        }
+        printf(" - %zu:%zu (%zu)\n", tok->row, tok->col, tok->length);
+    } else {
         printf("%s: %.*s - %zu:%zu (%zu)\n", *kindBuf, (int)tok->length, tok->text, tok->row, tok->col, tok->length);
+    }
 
     return;
 }
