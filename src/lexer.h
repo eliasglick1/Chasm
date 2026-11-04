@@ -23,11 +23,11 @@ typedef enum {
                      //               | float32, float64, double, double32, double64, szt, pszt
                      //     Directives: get, as, use, else, end, bare (define and if above)
     NUM_LITERAL,     // Decimal, hex, binary, octal, and float
-                     //   f, l, s, z, u - combinable in any order; `f` only allowed on float literals, because it is a hex digit;
+                     //   f, l, s, z, u - combinable in any order; `f` only allowed on float literals;
                      //   repeating suffixes are errors
     CHAR_LITERAL,    // 'a' and '\u{1F600}' as well as escapes:
-                     //   Escape Codes: \n \t \r \0 \\ \' \" \xHH \u{H...}
-    STR_LITERAL,     // "..." which may span lines; 
+                     //   Escape Codes: \n \t \r \0 \\ \' \" \xHH \u{H...}; malformed character literal is INVALID
+    STR_LITERAL,     // "..." which may span lines;
                      //   strings use the same escapes as CHAR_LITERAL, one bad escape is INVALID; unclosed string is Error.0016
     PUNCTUATION,     // Brackets, arithmetic, incrementors, bitwise, comparisons, logical, ternary, assignment, prefix, hash prefixes (with ^^(hashForDoubleCaretDef))
                      //       Brackets: (, ), [, ], {, }, ,, ;, ., :
