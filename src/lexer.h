@@ -23,10 +23,12 @@ typedef enum {
                      //               | float32, float64, double, double32, double64, szt, pszt
                      //     Directives: get, as, use, else, end, bare (define and if above)
     NUM_LITERAL,     // Decimal, hex, binary, octal, and float
-                     // f, l, s, z, u - combinable; no `f` suffix on hex, because it is a hex digit
+                     //   f, l, s, z, u - combinable in any order; `f` only allowed on float literals, because it is a hex digit;
+                     //   repeating suffixes are errors
     CHAR_LITERAL,    // 'a' and '\u{1F600}' as well as escapes:
                      //   Escape Codes: \n \t \r \0 \\ \' \" \xHH \u{H...}
-    STR_LITERAL,     // "..." which may span lines
+    STR_LITERAL,     // "..." which may span lines; 
+                     //   strings use the same escapes as CHAR_LITERAL, one bad escape is INVALID; unclosed string is Error.0016
     PUNCTUATION,     // Brackets, arithmetic, incrementors, bitwise, comparisons, logical, ternary, assignment, prefix, hash prefixes (with ^^(hashForDoubleCaretDef))
                      //       Brackets: (, ), [, ], {, }, ,, ;, ., :
                      //     Arithmetic: +, -, *, /, %
@@ -39,7 +41,7 @@ typedef enum {
                      //         Prefix: ^^
                      //    Hash Prefix: # (only with ^^(hashForDoubleCaretDef))
     NON_SOURCE,      // EOF token for the parser to stop on
-    INVALID,         // Any character not above: @, $, `, a stray \, # without the attribute
+    INVALID,         // Malformed numbers, characters, or string literals, covering the whole token; stray characters will give Error.0017
     NEWLINE,         // Specifically for newline characters
 } TokenKind;
 
