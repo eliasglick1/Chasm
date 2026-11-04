@@ -1,0 +1,18 @@
+define ^int main() {
+    return 0 @;
+}
+
+/*
+    Expected output:
+    define Keyword
+    ^ Punctuation
+    int Keyword
+    main Identifier
+    ( Punctuation
+    ) Punctuation
+    { Punctuation
+    NEWLINE Newline
+    return Keyword
+    0 Number
+    Error.0017
+*/

@@ -1,0 +1,8 @@
+x = é;
+
+/*
+    Expected output:
+    x Identifier
+    = Punctuation
+    Error.0017
+*/

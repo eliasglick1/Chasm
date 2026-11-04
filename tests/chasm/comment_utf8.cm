@@ -1,0 +1,12 @@
+x // café ✅
+/* naïve */ y
+
+/*
+    Expected output:
+    x Identifier
+    NEWLINE Newline
+    y Identifier
+    NEWLINE Newline
+    NEWLINE Newline
+    EOF Non-Source
+*/

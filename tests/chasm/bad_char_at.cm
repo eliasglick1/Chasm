@@ -1,0 +1,9 @@
+x = 1 @ 2;
+
+/*
+    Expected output:
+    x Identifier
+    = Punctuation
+    1 Number
+    Error.0017
+*/

@@ -1,0 +1,7 @@
+x # y
+
+/*
+    Expected output:
+    x Identifier
+    Error.0017
+*/

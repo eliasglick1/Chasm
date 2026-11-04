@@ -1,0 +1,8 @@
+x = `y`;
+
+/*
+    Expected output:
+    x Identifier
+    = Punctuation
+    Error.0017
+*/

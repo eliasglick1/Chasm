@@ -1,0 +1,12 @@
+﻿x = 1;
+
+/*
+    Expected output:
+    x Identifier
+    = Punctuation
+    1 Number
+    ; Punctuation
+    NEWLINE Newline
+    NEWLINE Newline
+    EOF Non-Source
+*/
