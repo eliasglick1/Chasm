@@ -12,7 +12,7 @@ Chasm is a hand-coded compiled language loosely based on C and C++ with unique s
 
 Chasm is currently in the lexer stage - it only lexes tokens for now.
 
-### What's done (lexer)
+### What's done
 - identifiers
 - keywords
 - punctuation
