@@ -20,8 +20,6 @@ Chasm is currently in the lexer stage - it only lexes tokens for now.
 - decimal numbers
 - an error handling system
 - prefix numbers (`0x`, `0b`, `0o`)
-
-### What's to come (lexer)
 - characters
 - strings
 
