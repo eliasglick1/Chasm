@@ -4,6 +4,7 @@
 
 - [Overview](#overview)
 - [Lexical Structure](#lexical-structure)
+    - [Source Characters](#source-characters)
     - [Comments](#comments)
     - [Identifiers](#identifiers)
     - [Keywords](#keywords)
@@ -100,6 +101,12 @@ define ^int main() {
 ## Lexical Structure
 
 Chasm's tokens follow C closely, with added literal prefixes, type suffixes and strings that may span lines.
+
+### Source Characters
+
+Outside comments, strings and character literals, source text is ASCII. Whitespace is a space, a tab, a carriage return (`\r`) or a line feed (`\n`). A line feed ends a line, and a carriage return before it is ignored. Comments may contain any bytes except NUL, including UTF-8 text. A UTF-8 byte order mark (the three bytes `EF BB BF`) at the very start of a file is ignored; anywhere else it is a non-ASCII byte and an error.
+
+Any other character that cannot start a token is a compile error, `Error.0017`, reported at that character. That covers `@`, `$`, `?`, `\`, the backtick, any control character (including vertical tab and form feed), and any non-ASCII byte. `#` is also an error unless `^^(hashForDoubleCaretDef)` is active. A NUL byte (value 0) anywhere in a file is `Error.0018`. Malformed number, character and string literals are not covered by this error; see their own sections.
 
 ### Comments
 
