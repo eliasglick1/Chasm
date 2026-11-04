@@ -24,12 +24,12 @@ define ^int main() {
     . Punctuation
     println Identifier
     ( Punctuation
-    "Hello, Chasm!" Literal
+    "Hello, Chasm!" String
     ) Punctuation
     ; Punctuation
     NEWLINE Newline
     return Keyword
-    0 Literal
+    0 Number
     ; Punctuation
     NEWLINE Newline
     } Punctuation

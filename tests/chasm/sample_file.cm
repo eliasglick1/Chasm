@@ -36,9 +36,9 @@ define ^int main() {
     . Punctuation
     println Identifier
     ( Punctuation
-    "Hello, world! %i" Literal
+    "Hello, world! %i" String
     , Punctuation
-    5 Literal
+    5 Number
     ) Punctuation
     ; Punctuation
     NEWLINE Newline
@@ -46,8 +46,9 @@ define ^int main() {
     int Keyword
     a Identifier
     = Punctuation
-    0 Literal
+    0 Number
     ; Punctuation
+    NEWLINE Newline
     a Identifier
     ++ Punctuation
     ; Punctuation
@@ -57,7 +58,7 @@ define ^int main() {
     ( Punctuation
     a Identifier
     == Punctuation
-    1 Literal
+    1 Number
     ) Punctuation
     { Punctuation
     NEWLINE Newline
@@ -67,7 +68,7 @@ define ^int main() {
     ] Punctuation
     b Identifier
     = Punctuation
-    "Hello, world?" Literal
+    "Hello, world?" String
     ; Punctuation
     NEWLINE Newline
     } Punctuation
@@ -78,11 +79,11 @@ define ^int main() {
     = Punctuation
     a Identifier
     == Punctuation
-    2 Literal
+    2 Number
     => Punctuation
-    1 Literal
+    1 Number
     : Punctuation
-    4 Literal
+    4 Number
     ; Punctuation
     NEWLINE Newline
     a Identifier
@@ -93,8 +94,11 @@ define ^int main() {
     NEWLINE Newline
     NEWLINE Newline
     return Keyword
-    0 Literal
+    0 Number
     ; Punctuation
     NEWLINE Newline
     } Punctuation
+    NEWLINE Newline
+    NEWLINE Newline
+    EOF Non-Source
 */
