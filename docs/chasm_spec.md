@@ -164,6 +164,8 @@ line two";            // a string runs until the next unescaped "
 
 Escapes: `\n` `\t` `\r` `\0` `\\` `\'` `\"` `\xHH` `\u{H…}`. A string literal is stored in read-only memory as a zero-terminated `char` array.
 
+Strings use the same escapes as characters. A string may contain raw line breaks, which stay exactly as written (a file saved with CRLF line endings gives a string containing `\r\n`), and a backslash directly before a line break is not an escape. A string may contain only ASCII characters; write any other character with `\u{H...}`. A string with a bad escape or a non-ASCII byte is malformed (the parser reports it), and a string that is never closed is a compile error (`Error.0016`) reported at its opening `"`.
+
 ### Directive Prefix
 
 `^^` starts a directive (`^^get`, `^^define`, `^^if`) or an attribute (`^^(name)`). Directives take no semicolon. After `^^(hashForDoubleCaretDef)`, `#` may be written in place of `^^` for the rest of the file.
@@ -1010,6 +1012,6 @@ These are deliberate Chasm behaviors that will surprise programmers coming from 
 | `main` is secretly `!` | An uncaught error exits with code 1 | Other functions must declare `!` |
 | Lambda captures copy | `\|x\|` takes `x`'s value at creation | Later changes to `x` aren't seen |
 | Import lookup prefers the STD | `^^get math` | A local `./math` folder is ignored when the STD has one |
-| Multi-line strings | A missing `"` swallows code until the next `"` | The error appears far from the typo |
+| Multi-line strings | A missing `"` swallows code until the next `"` | An unclosed string is reported at its opening `"`, but a later stray `"` can make it look closed |
 | `^^define` pastes text | `SQ(1+2)` is 5 | Typed `const` doesn't have this problem |
 | Not every attribute ends in `Def` / `Undef` | `^^(packStructs)` | Exceptions to the naming idiom |
