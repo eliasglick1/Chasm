@@ -30,6 +30,7 @@
 #define IO_ERROR 13
 #define MEM_ERROR 14
 #define UNAVAIL_RESOURCE_ERROR 15
+#define UNTERMINATED_STRING_ERROR 16
 
 // Misc. Definitions for QOL
 #define S_E stderr

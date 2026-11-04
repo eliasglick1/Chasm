@@ -67,6 +67,9 @@ _Noreturn void handleExit(int errorNum, const char* file, size_t row, size_t col
         case UNAVAIL_RESOURCE_ERROR:
             fprintf(S_E, "The resource is unavailable\n");
             exit(EXIT_OS_ERROR);
+        case UNTERMINATED_STRING_ERROR:
+            fprintf(S_E, "String unterminated at %s:%zu:%zu\n", file, row, col);
+            exit(EXIT_COMPILER_ERROR);
 
         case USAGEREQ:
             fprintf(S_O, "Usage: cmc <file>\n");
