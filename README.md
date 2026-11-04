@@ -125,19 +125,37 @@ src/
     lexer.h
 tests/
     chasm/
+        bad_char_backslash.cm
+        bad_char_backtick.cm
+        bad_char_control.cm
+        bad_char_dollar.cm
+        bad_char_form_feed.cm
+        bad_char_hash.cm
+        bad_char_later_line.cm
+        bad_char_non_ascii.cm
+        bad_char_question.cm
+        bom_at_start.cm
+        bom_not_at_start.cm
         broken_string.cm
+        characters.cm
+        comments_utf8.cm
         comments.cm
         double_caret_to_caret.cm
+        embedded_nul.cm
         hello_world.cm
         hex_to_float_suffix.cm
         identifiers_keywords.cm
         numbers.cm
+        prefix_test.cm
         sample_file.cm
+        strings_multiline.cm
+        strings.cm
         suffix_test.cm
         test_octal_notation_0o.cm
-        unclosed_comment.cm
         unclosed_comment_after_closed.cm
+        unclosed_comment.cm
 ./
+    .gitignore
     LICENSE
     Makefile
     README.md
