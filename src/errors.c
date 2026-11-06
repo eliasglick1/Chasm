@@ -70,6 +70,9 @@ _Noreturn void handleExit(int errorNum, const char* file, size_t row, size_t col
         case UNTERMINATED_STRING_ERROR:
             fprintf(S_E, "String unterminated at %s:%zu:%zu\n", file, row, col);
             exit(EXIT_COMPILER_ERROR);
+        case EMBEDDED_NUL_ERROR:
+            fprintf(S_E, "Embedded NUL found at %s:%zu:%zu\n", file, row, col);
+            exit(EXIT_COMPILER_ERROR);
 
         case USAGEREQ:
             fprintf(S_O, "Usage: cmc <file>\n");

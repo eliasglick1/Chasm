@@ -31,6 +31,7 @@
 #define MEM_ERROR 14
 #define UNAVAIL_RESOURCE_ERROR 15
 #define UNTERMINATED_STRING_ERROR 16
+#define EMBEDDED_NUL_ERROR 18
 
 // Misc. Definitions for QOL
 #define S_E stderr

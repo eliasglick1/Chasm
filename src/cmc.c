@@ -6,12 +6,23 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
+#include <string.h>
 
 #include "lexer.h"
 #include "errors.h"
 
 #define FTELL_FAIL_VAL -1L
 #define CF_SUCCESS 0
+
+static void getFirstNUL(size_t* r, size_t* c, const char* buf, long fz) {
+    const char* p = buf;
+    *r = *c = 1;
+    while (*p != '\0' && p - buf != fz) {
+        if (*p == '\n') { (*r)++; *c = 1; }
+        else { (*c)++; }
+        p++;
+    }
+}
 
 int main(int argc, char* argv[]) {
     if (argc > 1) {
@@ -115,9 +126,22 @@ int main(int argc, char* argv[]) {
             }
         }
 
+        // Check for BOM
+        const char* src;
+        long fsrcSize;
+        if (fsize >= 3 && memcmp(buf, "\xEF\xBB\xBF", 3) == 0) { src = buf + 3; fsrcSize = fsize - 3; }
+        else { src = buf; fsrcSize = fsize; }
+        
+        if (memchr(src, '\0', (size_t)fsrcSize) != NULL) {
+            size_t row, col;
+            getFirstNUL(&row, &col, src, fsrcSize);
+            free(buf);
+            handleExit(EMBEDDED_NUL_ERROR, FILENAME, row, col, 0, EMPTY_STR);
+        }
+
         buf[fsize] = '\0';
 
-        Lexer lexer = createLexer(buf, FILENAME);
+        Lexer lexer = createLexer(src, FILENAME);
         Token t = nextToken(&lexer);
         printToken(&t);
 
